@@ -37,7 +37,7 @@ public class Id3 {
         }else if(verificarSePropriedadesEstaoVazias()){
             // coloque algum código aqui
         }else{
-            selecionarPropriedade();
+            selecionarPropriedade(investimentosL);
         }
 
         return investimentoRetorno;
@@ -77,7 +77,9 @@ public class Id3 {
 
     }
 
-    public void selecionarPropriedade(){
+    public void selecionarPropriedade(ArrayList<Investimento> investimentosL){
+
+        
 
     }
 
