@@ -34,7 +34,6 @@ public class Id3 {
 
         if (verificarSeOsInvestimentosSaoDaMesmaClasse(investimentosL)){
             investimentoRetorno = investimentosL;
-            System.out.println("tudo igual");
         }else if(verificarSePropriedadesEstaoVazias()){
             // coloque algum código aqui
         }else{
