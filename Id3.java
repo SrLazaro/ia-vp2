@@ -81,15 +81,18 @@ public class Id3 {
 
         Entropia entropia = new Entropia(investimentosL, propriedades, classe);
         entropia.iniciar();
+        Atributo propriedade = entropia.getMelhorPropriedade();
+
+        System.out.println(propriedade.getNome());
 
     }
 
     private void criarPropriedades() {
 
         propriedades.add(new Atributo("Risco"));
-       // propriedades.add(new Atributo("HistoriaDeCredito"));
-       // propriedades.add(new Atributo("Divida"));
-     //   propriedades.add(new Atributo("Garantia"));
+        propriedades.add(new Atributo("HistoriaDeCredito"));
+        propriedades.add(new Atributo("Divida"));
+        propriedades.add(new Atributo("Garantia"));
         propriedades.add(new Atributo("Renda"));
 
         propriedades.removeIf(p -> p.getNome().equals(classe.getNome()));

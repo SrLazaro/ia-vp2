@@ -6,43 +6,76 @@ public class Entropia {
     private ArrayList<Atributo> propriedades = new ArrayList<Atributo>();
     private Atributo classe;
     private double entropiaClasse;
+    private ArrayList<GanhoInformacao> ganhosInformacao = new ArrayList<GanhoInformacao>();
+    private Atributo melhorPropriedade;
 
     public Entropia(ArrayList<Investimento> investimentos, ArrayList<Atributo> propriedades, Atributo classe) {
         this.investimentos = investimentos;
         this.propriedades = propriedades;
         this.classe = classe;
+        this.entropiaClasse = 0;
     }
 
     public void iniciar(){
 
         calcularEntropiaDaClasse();
         calcularEntropiasDasPropriedades();
+        verificarMelhorGanhoInformacao();
+
+    }
+
+    private void verificarMelhorGanhoInformacao() {
+
+        GanhoInformacao melhorGanhoInformacao = null;
+
+        for (GanhoInformacao ganhoInformacao : ganhosInformacao) {
+
+            if(melhorGanhoInformacao == null){
+                melhorGanhoInformacao = ganhoInformacao;
+            }else if(melhorGanhoInformacao.getGanho() >
+                    ganhoInformacao.getGanho()){
+                melhorGanhoInformacao = ganhoInformacao;
+            }
+
+        }
+
+        this.melhorPropriedade = melhorGanhoInformacao.getPropriedade();
 
     }
 
     private void calcularEntropiasDasPropriedades() {
+
+        double entropiaPropriedade, ganho = 0;
+
         for (Atributo propriedade : propriedades) {
 
-            double entropiaPropriedade = calcularEntropiaDaPropriedade(propriedade);
+            entropiaPropriedade = calcularEntropiaDaPropriedade(propriedade);
+            ganho = entropiaClasse - entropiaPropriedade;
+            ganhosInformacao.add(new GanhoInformacao(propriedade, entropiaPropriedade, ganho));        
             
         }
     }
 
     private double calcularEntropiaDaPropriedade(Atributo propriedade) {
 
+        double valorEntropia, valorPonderado, qtdRegistros, mediaPonderada = 0;
+
         ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
         registrosSumarizado = sumarizarValoresAtributo(propriedade, investimentos);        
 
+        qtdRegistros = investimentos.size();
+
         for (Registro registroSumarizado : registrosSumarizado) {
             
-            double valorEntropia = calcularEntropiaDoAtributo(registroSumarizado.getInvestimentos());
-
-            System.out.println(valorEntropia);
+            valorEntropia = calcularEntropiaDoAtributo(registroSumarizado.getInvestimentos());
+            valorPonderado = valorEntropia * registroSumarizado.getInvestimentos().size();
+            mediaPonderada += valorPonderado;
 
         }
 
+        mediaPonderada = Calculadora.dividir(mediaPonderada, qtdRegistros);
 
-        return 0;
+        return mediaPonderada;
     }
 
     public void sumarizarValoresPropriedade(){
@@ -159,6 +192,22 @@ public class Entropia {
 
     public void setEntropiaClasse(double entropiaClasse) {
         this.entropiaClasse = entropiaClasse;
+    }
+
+    public ArrayList<GanhoInformacao> getGanhosInformacao() {
+        return ganhosInformacao;
+    }
+
+    public void setGanhosInformacao(ArrayList<GanhoInformacao> ganhosInformacao) {
+        this.ganhosInformacao = ganhosInformacao;
+    }
+
+    public Atributo getMelhorPropriedade() {
+        return melhorPropriedade;
+    }
+
+    public void setMelhorPropriedade(Atributo melhorPropriedade) {
+        this.melhorPropriedade = melhorPropriedade;
     }
 
 }
