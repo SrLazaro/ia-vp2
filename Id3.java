@@ -3,18 +3,18 @@ import java.util.ArrayList;
 public class Id3 {
 
     private ArrayList<Investimento> investimentos = new ArrayList<Investimento>();
-    private ArrayList<Propriedade> propriedades = new ArrayList<Propriedade>();
-    private Propriedade classe;
+    private ArrayList<Atributo> propriedades = new ArrayList<Atributo>();
+    private Atributo classe;
 
     public Id3(ArrayList<Investimento> investimentos) {
 
         this.investimentos = investimentos;
-        this.classe = new Propriedade("Risco");
+        this.classe = new Atributo("Risco");
         criarPropriedades();
 
     }
 
-    public Id3(ArrayList<Investimento> investimentos, Propriedade classe) {
+    public Id3(ArrayList<Investimento> investimentos, Atributo classe) {
 
         this.investimentos = investimentos;
         this.classe = classe;
@@ -28,7 +28,7 @@ public class Id3 {
   
     }
 
-    public ArrayList<Investimento> induzirArvore(ArrayList<Investimento> investimentosL, ArrayList<Propriedade> propriedadesL){
+    public ArrayList<Investimento> induzirArvore(ArrayList<Investimento> investimentosL, ArrayList<Atributo> propriedadesL){
 
         ArrayList<Investimento> investimentoRetorno = new ArrayList<Investimento>();
 
@@ -52,7 +52,7 @@ public class Id3 {
 
         for (Investimento investimento : investimentosL) {
 
-            valorAtual = BuscadorValorPropriedade.retornarValor(classe, investimento);
+            valorAtual = BuscadorValorAtributo.retornarValor(classe, investimento);
 
             if(valorAnterior == null){
                 valorAnterior = valorAtual;
@@ -79,17 +79,18 @@ public class Id3 {
 
     public void selecionarPropriedade(ArrayList<Investimento> investimentosL){
 
-        
+        Entropia entropia = new Entropia(investimentosL, propriedades, classe);
+        entropia.iniciar();
 
     }
 
     private void criarPropriedades() {
 
-        propriedades.add(new Propriedade("Risco"));
-        propriedades.add(new Propriedade("HistoriaDeCredito"));
-        propriedades.add(new Propriedade("Divida"));
-        propriedades.add(new Propriedade("Garantia"));
-        propriedades.add(new Propriedade("Renda"));
+        propriedades.add(new Atributo("Risco"));
+        propriedades.add(new Atributo("HistoriaDeCredito"));
+        propriedades.add(new Atributo("Divida"));
+        propriedades.add(new Atributo("Garantia"));
+        propriedades.add(new Atributo("Renda"));
 
         propriedades.removeIf(p -> p.getNome().equals(classe.getNome()));
 

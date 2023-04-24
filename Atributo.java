@@ -1,16 +1,16 @@
-public class Propriedade {
+public class Atributo {
     
     private String nome;
     private String nomeClasse;
     private String nomeMetodo;
 
-    public Propriedade(String nome, String nomeMetodo, String nomeClasse) {
+    public Atributo(String nome, String nomeMetodo, String nomeClasse) {
         this.nome = nome;
         this.nomeClasse = nomeClasse;
         this.nomeMetodo = nomeMetodo;
     }
 
-    public Propriedade(String nome) {
+    public Atributo(String nome) {
         this.nome = nome;
         this.nomeClasse = "Tipos." + nome;
         this.nomeMetodo = "get" + nome;

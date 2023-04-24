@@ -3,11 +3,11 @@ import java.util.ArrayList;
 public class Entropia {
     
     private ArrayList<Investimento> investimentos = new ArrayList<Investimento>();
-    private ArrayList<Propriedade> propriedades = new ArrayList<Propriedade>();
-    private Propriedade classe;
+    private ArrayList<Atributo> propriedades = new ArrayList<Atributo>();
+    private Atributo classe;
     private int qtdRegistro;
 
-    public Entropia(ArrayList<Investimento> investimentos, ArrayList<Propriedade> propriedades, Propriedade classe) {
+    public Entropia(ArrayList<Investimento> investimentos, ArrayList<Atributo> propriedades, Atributo classe) {
         this.investimentos = investimentos;
         this.propriedades = propriedades;
         this.classe = classe;
@@ -22,18 +22,35 @@ public class Entropia {
 
     public void calcularEntropiaDaClasse(){
 
+        ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
+        registrosSumarizado = sumarizarValoresAtributo(classe, investimentos);
+
+        System.out.println("até aqui tá funcionando kkk");
+
+    }
+
+    private ArrayList<Registro> sumarizarValoresAtributo(Atributo propriedadeL,
+            ArrayList<Investimento> investimentosL) {
+
         String valor = null;
         ArrayList<Registro> registros = new ArrayList<Registro>();
+        Registro registroAchado = null;
 
-        for (Investimento investimento : investimentos) {
+        for (Investimento investimento : investimentosL) {
 
-            valor = BuscadorValorPropriedade.retornarValor(classe, investimento);
+            valor = BuscadorValorAtributo.retornarValor(propriedadeL, investimento);
 
-            // adicionar uma logica aqui 
+            registroAchado = BuscadorRegistro.verificarSeRegistroExiste(registros, valor);
 
-            
+            if(registroAchado != null){
+                registroAchado.adicionarQuantidade();
+            }else{
+                registros.add(new Registro(valor, 1));
+            }
+
         }
 
+        return registros;
 
     }
 
@@ -45,19 +62,19 @@ public class Entropia {
         this.investimentos = investimentos;
     }
 
-    public ArrayList<Propriedade> getPropriedades() {
+    public ArrayList<Atributo> getPropriedades() {
         return propriedades;
     }
 
-    public void setPropriedades(ArrayList<Propriedade> propriedades) {
+    public void setPropriedades(ArrayList<Atributo> propriedades) {
         this.propriedades = propriedades;
     }
 
-    public Propriedade getClasse() {
+    public Atributo getClasse() {
         return classe;
     }
 
-    public void setClasse(Propriedade classe) {
+    public void setClasse(Atributo classe) {
         this.classe = classe;
     }
 

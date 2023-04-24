@@ -8,6 +8,10 @@ public class Registro {
         this.quantidade = quantidade;
     }
 
+    public void adicionarQuantidade(){
+        this.quantidade++;
+    }
+
     public String getValor() {
         return valor;
     }
