@@ -50,8 +50,12 @@ public class Entropia {
                 fracao = Calculadora.dividir(quantidade, totalRegistros);
                 log = Calculadora.log(2, fracao);
                 valorEntropia = ( (fracao * -1) * log );
-    
-                valorEntropiaSumarizada -= valorEntropia;
+                
+                if(valorEntropiaSumarizada == 0){
+                    valorEntropiaSumarizada = valorEntropia;
+                }else{
+                    valorEntropiaSumarizada -= valorEntropia;
+                }
     
             }  
         } catch (Exception e) {
