@@ -87,9 +87,9 @@ public class Id3 {
     private void criarPropriedades() {
 
         propriedades.add(new Atributo("Risco"));
-        propriedades.add(new Atributo("HistoriaDeCredito"));
-        propriedades.add(new Atributo("Divida"));
-        propriedades.add(new Atributo("Garantia"));
+       // propriedades.add(new Atributo("HistoriaDeCredito"));
+       // propriedades.add(new Atributo("Divida"));
+     //   propriedades.add(new Atributo("Garantia"));
         propriedades.add(new Atributo("Renda"));
 
         propriedades.removeIf(p -> p.getNome().equals(classe.getNome()));

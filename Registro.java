@@ -1,15 +1,24 @@
+import java.util.ArrayList;
+
 public class Registro {
     
     private String valor;
     private int quantidade;
+    private ArrayList<Investimento> investimentos = new ArrayList<Investimento>();
 
-    public Registro(String valor, int quantidade) {
+
+    public Registro(String valor, int quantidade, Investimento investimento) {
         this.valor = valor;
         this.quantidade = quantidade;
+        adicionarInvestimento(investimento);
     }
 
     public void adicionarQuantidade(){
         this.quantidade++;
+    }
+
+    public void adicionarInvestimento(Investimento investimento){
+        this.investimentos.add(investimento);
     }
 
     public String getValor() {
@@ -28,4 +37,12 @@ public class Registro {
         this.quantidade = quantidade;
     }
 
+    public ArrayList<Investimento> getInvestimentos() {
+        return investimentos;
+    }
+
+    public void setInvestimentos(ArrayList<Investimento> investimentos) {
+        this.investimentos = investimentos;
+    }
+    
 }

@@ -5,7 +5,7 @@ public class Entropia {
     private ArrayList<Investimento> investimentos = new ArrayList<Investimento>();
     private ArrayList<Atributo> propriedades = new ArrayList<Atributo>();
     private Atributo classe;
-    private int qtdRegistro;
+    private double entropiaClasse;
 
     public Entropia(ArrayList<Investimento> investimentos, ArrayList<Atributo> propriedades, Atributo classe) {
         this.investimentos = investimentos;
@@ -15,18 +15,55 @@ public class Entropia {
 
     public void iniciar(){
 
-        qtdRegistro = investimentos.size();
         calcularEntropiaDaClasse();
+        calcularEntropiasDasPropriedades();
+
+    }
+
+    private void calcularEntropiasDasPropriedades() {
+        for (Atributo propriedade : propriedades) {
+
+            double entropiaPropriedade = calcularEntropiaDaPropriedade(propriedade);
+            
+        }
+    }
+
+    private double calcularEntropiaDaPropriedade(Atributo propriedade) {
+
+        ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
+        registrosSumarizado = sumarizarValoresAtributo(propriedade, investimentos);        
+
+        for (Registro registroSumarizado : registrosSumarizado) {
+            
+            double valorEntropia = calcularEntropiaDoAtributo(registroSumarizado.getInvestimentos());
+
+            System.out.println(valorEntropia);
+
+        }
+
+
+        return 0;
+    }
+
+    public void sumarizarValoresPropriedade(){
 
     }
 
     public void calcularEntropiaDaClasse(){
 
-        ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
-        registrosSumarizado = sumarizarValoresAtributo(classe, investimentos);
-        double entropiaClasse = calcularValorEntropia(registrosSumarizado);
+        this.entropiaClasse = calcularEntropiaDoAtributo(investimentos);
 
-        System.out.println("até aqui tá funcionando kkk");
+    }
+
+    public double calcularEntropiaDoAtributo(ArrayList<Investimento> investimentosL){
+
+        double valorEntropia = 0;
+
+        ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
+        registrosSumarizado = sumarizarValoresAtributo(classe, investimentosL);
+        valorEntropia = calcularValorEntropia(registrosSumarizado);
+
+        return valorEntropia;
 
     }
 
@@ -54,7 +91,7 @@ public class Entropia {
                 if(valorEntropiaSumarizada == 0){
                     valorEntropiaSumarizada = valorEntropia;
                 }else{
-                    valorEntropiaSumarizada -= valorEntropia;
+                    valorEntropiaSumarizada += valorEntropia;
                 }
     
             }  
@@ -81,8 +118,9 @@ public class Entropia {
 
             if(registroAchado != null){
                 registroAchado.adicionarQuantidade();
+                registroAchado.adicionarInvestimento(investimento);
             }else{
-                registros.add(new Registro(valor, 1));
+                registros.add(new Registro(valor, 1, investimento));
             }
 
         }
@@ -115,12 +153,12 @@ public class Entropia {
         this.classe = classe;
     }
 
-    public int getQtdRegistro() {
-        return qtdRegistro;
+    public double getEntropiaClasse() {
+        return entropiaClasse;
     }
 
-    public void setQtdRegistro(int qtdRegistro) {
-        this.qtdRegistro = qtdRegistro;
+    public void setEntropiaClasse(double entropiaClasse) {
+        this.entropiaClasse = entropiaClasse;
     }
 
 }
