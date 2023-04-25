@@ -3,6 +3,7 @@ public class Atributo {
     private String nome;
     private String nomeClasse;
     private String nomeMetodo;
+    private String listaMetodo;
 
     public Atributo(String nome, String nomeMetodo, String nomeClasse) {
         this.nome = nome;
@@ -12,8 +13,9 @@ public class Atributo {
 
     public Atributo(String nome) {
         this.nome = nome;
-        this.nomeClasse = "Tipos." + nome;
-        this.nomeMetodo = "get" + nome;
+        this.nomeClasse  = "Tipos." + nome;
+        this.nomeMetodo  = "get" + nome;
+        this.listaMetodo = "gerarLista";
     }
 
     public String getNome() {
@@ -38,6 +40,14 @@ public class Atributo {
 
     public void setNomeMetodo(String nomeMetodo) {
         this.nomeMetodo = nomeMetodo;
+    }
+
+    public String getListaMetodo() {
+        return listaMetodo;
+    }
+
+    public void setListaMetodo(String listaMetodo) {
+        this.listaMetodo = listaMetodo;
     }
 
 }

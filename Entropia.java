@@ -61,7 +61,7 @@ public class Entropia {
         double valorEntropia, valorPonderado, qtdRegistros, mediaPonderada = 0;
 
         ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
-        registrosSumarizado = sumarizarValoresAtributo(propriedade, investimentos);        
+        registrosSumarizado = Sumarizador.sumarizarValoresAtributo(propriedade, investimentos);        
 
         qtdRegistros = investimentos.size();
 
@@ -78,9 +78,6 @@ public class Entropia {
         return mediaPonderada;
     }
 
-    public void sumarizarValoresPropriedade(){
-
-    }
 
     public void calcularEntropiaDaClasse(){
 
@@ -93,7 +90,7 @@ public class Entropia {
         double valorEntropia = 0;
 
         ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
-        registrosSumarizado = sumarizarValoresAtributo(classe, investimentosL);
+        registrosSumarizado = Sumarizador.sumarizarValoresAtributo(classe, investimentosL);
         valorEntropia = calcularValorEntropia(registrosSumarizado);
 
         return valorEntropia;
@@ -136,31 +133,6 @@ public class Entropia {
 
     }
 
-    private ArrayList<Registro> sumarizarValoresAtributo(Atributo propriedadeL,
-            ArrayList<Investimento> investimentosL) {
-
-        String valor = null;
-        ArrayList<Registro> registros = new ArrayList<Registro>();
-        Registro registroAchado = null;
-
-        for (Investimento investimento : investimentosL) {
-
-            valor = BuscadorValorAtributo.retornarValor(propriedadeL, investimento);
-
-            registroAchado = BuscadorRegistro.verificarSeRegistroExiste(registros, valor);
-
-            if(registroAchado != null){
-                registroAchado.adicionarQuantidade();
-                registroAchado.adicionarInvestimento(investimento);
-            }else{
-                registros.add(new Registro(valor, 1, investimento));
-            }
-
-        }
-
-        return registros;
-
-    }
 
     public ArrayList<Investimento> getInvestimentos() {
         return investimentos;

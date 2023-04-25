@@ -1,4 +1,7 @@
 package Tipos;
+
+import java.util.ArrayList;
+
 public enum Divida {
 
     ALTA("Alta"),
@@ -13,4 +16,15 @@ public enum Divida {
     public String getDescricao() {
         return descricao;
     }
+
+    public static ArrayList<String> getListaAtributos(){
+
+        ArrayList<String> listaAtributos = new ArrayList<String>();
+
+        listaAtributos.add(ALTA.getDescricao());
+        listaAtributos.add(BAIXA.getDescricao());
+
+        return listaAtributos;
+    }
+
 }

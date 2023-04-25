@@ -1,4 +1,7 @@
 package Tipos;
+
+import java.util.ArrayList;
+
 public enum Renda {
 
     ALTA("Acima de $35 mil"),
@@ -13,6 +16,17 @@ public enum Renda {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public static ArrayList<String> getListaAtributos(){
+
+        ArrayList<String> listaAtributos = new ArrayList<String>();
+
+        listaAtributos.add(ALTA.getDescricao());
+        listaAtributos.add(MEDIA.getDescricao());
+        listaAtributos.add(BAIXA.getDescricao());
+
+        return listaAtributos;
     }
 
 }

@@ -33,4 +33,8 @@ public class No {
         this.nos = nos;
     }
 
+    public void adicionarNo(No no) {
+        this.nos.add(no);
+    }
+
 }

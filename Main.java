@@ -10,12 +10,13 @@ public class Main{
 
     public static ArrayList<Investimento> investimentos = new ArrayList<Investimento>();
     public static Id3 id3;
+    public static No no;
 
     public static void main(String[] args) {
 
         criarHistoricoDeInvestimentos();
         id3 = new Id3(investimentos);
-        id3.iniciar();
+        no = id3.iniciar();
 
         System.out.println("olá mundo!");
 
