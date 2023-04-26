@@ -18,6 +18,8 @@ public class Main{
         id3 = new Id3(investimentos);
         no = id3.iniciar();
 
+        EscritorArvore.exibirArvore(no);
+
         System.out.println("olá mundo!");
 
     }

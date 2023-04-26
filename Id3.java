@@ -28,25 +28,31 @@ public class Id3 {
 
         No no;
 
-        no = induzirArvore(investimentos, propriedades);
+        ArrayList<Investimento> investimentosL = investimentos;
+        ArrayList<Atributo> propriedadesL = propriedades;
+
+        no = induzirArvore(investimentosL, propriedadesL);
 
         return no;
   
     }
 
-    public No induzirArvore(ArrayList<Investimento> investimentosL, ArrayList<Atributo> propriedadesL){
+    public No induzirArvore(ArrayList<Investimento> investimentosParametro, ArrayList<Atributo> propriedadesParametro){
 
         Atributo propriedade = null;
         No no = null;
 
+        ArrayList<Investimento> investimentosL = atribuirInvestimento(investimentosParametro);
+        ArrayList<Atributo> propriedadesL = atribuirPropriedade(propriedadesParametro);
+
         no = verificarSeOsInvestimentosSaoDaMesmaClasse(investimentosL);
         if (no == null){
-            if(verificarSePropriedadesEstaoVazias()){
-                no = retornarDisjuncaoDaClasse();
+            if(verificarSePropriedadesEstaoVazias(propriedadesL)){
+                no = retornarDisjuncaoDaClasse(investimentosL);
             }else{
-                propriedade = selecionarPropriedade(investimentosL);
-                removerPropriedade(propriedade);
-                no = processarPropriedade(propriedade);
+                propriedade = selecionarPropriedade(investimentosL, propriedadesL);
+                propriedadesL = removerPropriedade(propriedadesL, propriedade);
+                no = processarPropriedade(propriedade, propriedadesL, investimentosL);
             }
         }
 
@@ -54,15 +60,48 @@ public class Id3 {
 
     }
 
-    private No retornarDisjuncaoDaClasse() {
+    private ArrayList<Atributo> atribuirPropriedade(ArrayList<Atributo> propriedadesParametro) {
+        
+        ArrayList<Atributo> propriedadesSaida = new ArrayList<Atributo>();
+
+        if(propriedadesParametro != null || propriedadesParametro.size() != 0){
+            for (Atributo propriedade : propriedadesParametro) {
+                    propriedadesSaida.add(propriedade);
+                }
+        }
+
+
+        return propriedadesSaida;
+
+    }
+
+    private ArrayList<Investimento> atribuirInvestimento(ArrayList<Investimento> investimentosParametro) {
+        
+        ArrayList<Investimento> investimentoSaida = new ArrayList<Investimento>();
+
+        if(investimentosParametro != null || investimentosParametro.size() != 0){
+            for (Investimento investimento : investimentosParametro) {
+                    investimentoSaida.add(investimento);
+                }
+        }
+
+        return investimentoSaida;
+
+    }
+
+    private No retornarDisjuncaoDaClasse(ArrayList<Investimento> investimentosL) {
 
         No no = null;
         String valor = "";
         ArrayList<Registro> registrosSumarizado = new ArrayList<Registro>();
-        registrosSumarizado = Sumarizador.sumarizarValoresAtributo(classe, investimentos);
+        registrosSumarizado = Sumarizador.sumarizarValoresAtributo(classe, investimentosL);
 
         for (Registro registro : registrosSumarizado) {
-            valor = valor + " | " + registro.getValor();
+            if(valor.equals("")){
+                valor = registro.getValor();
+            }else{
+                valor = valor + " ~ " + registro.getValor();
+            }
         }
         
         no = new No(valor, null);
@@ -70,22 +109,27 @@ public class Id3 {
         return no;
     }
 
-    private No processarPropriedade(Atributo propriedade) {
+    private No processarPropriedade(Atributo propriedade, ArrayList<Atributo> propriedadesL, ArrayList<Investimento> investimentosL) {
 
         No no = null;
         No novoNo = null;
+        No valorNo = null;
         ArrayList<Investimento> particao = new ArrayList<Investimento>();
         ArrayList<String> valores = new ArrayList<String>();
 
         valores = BuscadorValorAtributo.retornarLista(propriedade);
 
-        no = new No(propriedade.getNome());
+        no = new No("* " + propriedade.getNome());
 
         for (String valor : valores) {
+
+            valorNo = new No("+ " + valor);
+            no.adicionarNo(valorNo);
+
             
-            particao = criarParticao(valor, propriedade);
-            novoNo = induzirArvore(particao, propriedades);
-            no.adicionarNo(novoNo);
+            particao = criarParticao(valor, propriedade, investimentosL);
+            novoNo = induzirArvore(particao, propriedadesL);
+            valorNo.adicionarNo(novoNo);
 
         }
         
@@ -93,12 +137,12 @@ public class Id3 {
 
     }
 
-    private ArrayList<Investimento> criarParticao(String valorParticao, Atributo propriedadeParticao) {
+    private ArrayList<Investimento> criarParticao(String valorParticao, Atributo propriedadeParticao, ArrayList<Investimento> investimentosParticao) {
 
         ArrayList<Investimento> particao = new ArrayList<Investimento>();
         String valor = null;
 
-        for (Investimento investimento : investimentos) {
+        for (Investimento investimento : investimentosParticao) {
 
             valor = BuscadorValorAtributo.retornarValor(propriedadeParticao, investimento);
 
@@ -111,9 +155,11 @@ public class Id3 {
         return particao;
     }
 
-    private void removerPropriedade(Atributo propriedade) {
+    private ArrayList<Atributo> removerPropriedade(ArrayList<Atributo> propriedadesL, Atributo propriedade) {
 
-        propriedades.removeIf(p -> p.getNome().equals(propriedade.getNome()));
+        propriedadesL.removeIf(p -> p.getNome().equals(propriedade.getNome()));
+
+        return propriedadesL;
 
     }
 
@@ -147,11 +193,11 @@ public class Id3 {
 
     }
 
-    public Boolean verificarSePropriedadesEstaoVazias(){
+    public Boolean verificarSePropriedadesEstaoVazias(ArrayList<Atributo> propriedadesL){
 
         boolean propriedadesEstaoVazias = false;
 
-        if(this.propriedades.size() == 0){
+        if(propriedadesL.size() == 0){
             propriedadesEstaoVazias = true;
         }
 
@@ -159,11 +205,11 @@ public class Id3 {
 
     }
 
-    public Atributo selecionarPropriedade(ArrayList<Investimento> investimentosL){
+    public Atributo selecionarPropriedade(ArrayList<Investimento> investimentosL, ArrayList<Atributo> propriedadesL){
 
         Atributo propriedade = null;
 
-        Entropia entropia = new Entropia(investimentosL, propriedades, classe);
+        Entropia entropia = new Entropia(investimentosL, propriedadesL, classe);
         entropia.iniciar();
         propriedade = entropia.getMelhorPropriedade();
 

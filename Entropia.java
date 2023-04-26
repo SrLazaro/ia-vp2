@@ -32,7 +32,7 @@ public class Entropia {
 
             if(melhorGanhoInformacao == null){
                 melhorGanhoInformacao = ganhoInformacao;
-            }else if(melhorGanhoInformacao.getGanho() >
+            }else if(melhorGanhoInformacao.getGanho() <
                     ganhoInformacao.getGanho()){
                 melhorGanhoInformacao = ganhoInformacao;
             }
