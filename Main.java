@@ -20,8 +20,6 @@ public class Main{
 
         EscritorArvore.exibirArvore(no);
 
-        System.out.println("olá mundo!");
-
     }
 
     public static void criarHistoricoDeInvestimentos(){
